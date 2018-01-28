@@ -7,7 +7,7 @@ import {
   TextInput
 } from 'react-native';
 
-const { height, width } = Dimensions.get("window")
+const { width, height } = Dimensions.get("window")
 
 export default class App extends React.Component {
 
@@ -17,18 +17,50 @@ export default class App extends React.Component {
   }
 
   render() {
+    const { newToDo } = this.state
+
     return (
       <View style={styles.container}>
         <View style={styles.header}>
           <TextInput 
             style={styles.input}
             placeholder={"+ add a new task"}
+            value={newToDo}
+            returnKeyType={"done"}
+            onSubmitEditing={this.addToDo}
+            onChangeText={(text) => {
+              this.setState({
+                newToDo: text
+              })
+            }}
+            
           />
         </View>
       </View>
     );
   }
+
+  addToDo = () => {
+    let todos = this.state.todos
+    let todoText = this.state.newToDo
+
+    if(todoText != "") {
+      let aToDo = {
+        text: todoText,
+        isCompleted: false,
+        isEditing: false
+      }
+
+      todos.push(aToDo)
+
+      this.setState({
+        todos: todos,
+        newToDo: ""
+      })
+    }
+  }
 }
+
 
 const styles = StyleSheet.create({
   container: {
