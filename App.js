@@ -4,7 +4,8 @@ import {
   Text,
   View,
   Dimensions,
-  TextInput
+  TextInput,
+  ScrollView
 } from 'react-native';
 
 const { width, height } = Dimensions.get("window")
@@ -33,8 +34,10 @@ export default class App extends React.Component {
                 newToDo: text
               })
             }}
-            
           />
+          <ScrollView>
+            
+          </ScrollView>
         </View>
       </View>
     );
@@ -58,6 +61,7 @@ export default class App extends React.Component {
         newToDo: ""
       })
     }
+    console.log(todos)
   }
 }
 
