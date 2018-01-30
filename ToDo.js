@@ -1,17 +1,22 @@
 import React, { Component } from 'react';
 import {
-    View,
-    Text
+  View,
+  Text,
+  Dimensions
 } from 'react-native';
 
-class componentName extends Component {
+const { width, height } = Dimensions.get("window");
+
+export default class ToDo extends Component {
+  state = {
+
+  }
+
   render() {
     return (
       <View>
-        <Text> textInComponent </Text>
+        
       </View>
     );
   }
 }
-
-export default componentName;

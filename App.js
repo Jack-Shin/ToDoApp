@@ -8,7 +8,9 @@ import {
   ScrollView
 } from 'react-native';
 
-const { width, height } = Dimensions.get("window")
+import ToDo from './ToDo'
+
+const { width, height } = Dimensions.get("window");
 
 export default class App extends React.Component {
 
@@ -35,10 +37,10 @@ export default class App extends React.Component {
               })
             }}
           />
-          <ScrollView>
-            
-          </ScrollView>
         </View>
+        <ScrollView>
+          <ToDo />
+        </ScrollView>
       </View>
     );
   }
