@@ -20,7 +20,7 @@ export default class App extends React.Component {
   }
 
   render() {
-    const { newToDo } = this.state
+    const { newToDo, todos } = this.state
 
     return (
       <View style={styles.container}>
@@ -39,7 +39,10 @@ export default class App extends React.Component {
           />
         </View>
         <ScrollView>
-          <ToDo />
+          <ToDo
+            todos={todos}
+            completeToDo={this.completeToDo}
+          />
         </ScrollView>
       </View>
     );
@@ -50,13 +53,13 @@ export default class App extends React.Component {
     let todoText = this.state.newToDo
 
     if(todoText != "") {
-      let aToDo = {
+      let todoItem = {
         text: todoText,
         isCompleted: false,
         isEditing: false
       }
 
-      todos.push(aToDo)
+      todos.push(todoItem)
 
       this.setState({
         todos: todos,
@@ -65,13 +68,24 @@ export default class App extends React.Component {
     }
     console.log(todos)
   }
+
+  completeToDo = (index) => {
+    let todos = this.state.todos
+  
+    todos[index].isCompleted = !todos[index].isCompleted
+
+    console.log("DSFSDFDSF")
+    this.setState({
+      todos: todos
+    })
+  }
 }
 
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#eae7d0',
+    backgroundColor: '#e5e3d0',
     alignItems: 'center',
   },
   header: {
