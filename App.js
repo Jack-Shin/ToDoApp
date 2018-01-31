@@ -42,6 +42,8 @@ export default class App extends React.Component {
           <ToDo
             todos={todos}
             completeToDo={this.completeToDo}
+            deleteToDo={this.deleteToDo}
+            editToDo={this.editToDo}
           />
         </ScrollView>
       </View>
@@ -69,16 +71,38 @@ export default class App extends React.Component {
     console.log(todos)
   }
 
+
+  deleteToDo = (index) => {
+    let todos = this.state.todos
+
+    todos.splice(index, 1)
+
+    this.setState({
+      todos: todos
+    })
+  }
+
   completeToDo = (index) => {
     let todos = this.state.todos
   
     todos[index].isCompleted = !todos[index].isCompleted
 
-    console.log("DSFSDFDSF")
     this.setState({
       todos: todos
     })
   }
+
+  editToDo = (index) => {
+    let todos = this.state.todos
+
+    todos[index].isEditing = !todos[index].isEditing
+
+    this.setState({
+      todos: todos
+    })
+  }
+
+  
 }
 
 
