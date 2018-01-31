@@ -4,7 +4,8 @@ import {
   Text,
   StyleSheet,
   Dimensions,
-  TouchableOpacity
+  TouchableOpacity,
+  TextInput
 } from 'react-native';
 
 const { width, height } = Dimensions.get("window");
@@ -18,6 +19,7 @@ export default class ToDo extends Component {
     })
   }
   render() {
+    const { todos } = this.state
     return (
       <View style={styles.container}>
       {
@@ -33,17 +35,38 @@ export default class ToDo extends Component {
                 />
               </TouchableOpacity>
 
-              <Text style={styles.text}>{todoItem.text}</Text>
-
-              <View style={styles.buttongrp}>
-                <TouchableOpacity>
+              { todoItem.isEditing ? (
+                <TextInput
+                  style={styles.input}
+                  placeholder={todoItem.text}
+                  value={todoItem.text}
+                  onChangeText={(text) => {
+                    todos[index].text = text
+                    this.setState({
+                      todos: todos
+                    })
+                  }}
+                />
+              ) : (
+                <Text style={styles.text}>{todoItem.text}</Text>
+              )}
+              
+              { todoItem.isEditing ? (
+                <View style={styles.buttongrp}>
+                  <TouchableOpacity onPress={this.props.editToDo.bind(this, index)}>
+                    <Text style={[styles.text, styles.btn]}>✅</Text>
+                  </TouchableOpacity>
+                </View>
+              ) : (
+                <View style={styles.buttongrp}>
+                <TouchableOpacity onPress={this.props.editToDo.bind(this, index)}>
                   <Text style={[styles.text, styles.btn]}>✏️</Text>
                 </TouchableOpacity>
-                <TouchableOpacity>
+                <TouchableOpacity onPress={this.props.deleteToDo.bind(this, index)}>
                   <Text style={[styles.text, styles.btn]}>❌</Text>
                 </TouchableOpacity>
               </View>
-              
+              ) }
             </View>
           )
         }) 
@@ -75,10 +98,10 @@ const styles = StyleSheet.create({
     borderColor: '#e57e86'
   },
   completeCircle: {
-    borderColor: '#e57e86'
+    borderColor: '#bbb'
   },
   uncompleteCircle: {
-    borderColor: '#bbb'
+    borderColor: '#e57e86'
   },
   text: {
     color: '#444444',
@@ -89,5 +112,15 @@ const styles = StyleSheet.create({
   },
   btn: {
     paddingHorizontal: 10,
+  },
+  input: {
+    borderBottomColor: "#bbbbbb",
+    borderBottomWidth: 1,
+    backgroundColor: "#e0ded0",
+    fontSize: 20,
+    width: width / 1.4,
+    borderRadius: 6,
+    paddingHorizontal: 5,
+    paddingVertical: 1
   }
 });
