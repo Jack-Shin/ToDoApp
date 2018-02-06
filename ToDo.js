@@ -18,13 +18,13 @@ export default class ToDo extends Component {
     todos: todosArray
   }*/
 
-  componentWillMount() {
+  /*componentWillMount() {
     let todos = this.props.todos
 
     this.setState({
       todos: todos
     })
-  }
+  }*/
 
   render() {
     const { todos } = this.props

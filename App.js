@@ -122,10 +122,18 @@ export default class App extends React.Component {
   async getAsyncItem(key) {
     await AsyncStorage.getItem(key)
       .then((res) => {
-        parsedRes = JSON.parse(res)
-        this.setState({
-          todos: parsedRes
-        })
+        if(res == null) {
+          this.setState({
+            todos: []
+          })
+          this.setAsyncItem("todos", JSON.stringify(this.state.todos))
+        } else {
+          parsedRes = JSON.parse(res)
+          this.setState({
+            todos: parsedRes
+          })
+        }
+        
         //alert(this.state.todos)
       })
       .catch((error) => {
