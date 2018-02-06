@@ -5,7 +5,8 @@ import {
   View,
   Dimensions,
   TextInput,
-  ScrollView
+  ScrollView,
+  AsyncStorage
 } from 'react-native';
 
 import ToDo from './ToDo'
@@ -17,6 +18,10 @@ export default class App extends React.Component {
   state = {
     newToDo: "",
     todos: []
+  }
+
+  componentWillMount() {
+    this.getAsyncItem("todos")
   }
 
   render() {
@@ -40,10 +45,11 @@ export default class App extends React.Component {
         </View>
         <ScrollView>
           <ToDo
-            todos={todos}
             completeToDo={this.completeToDo}
             deleteToDo={this.deleteToDo}
             editToDo={this.editToDo}
+            todos={this.state.todos}
+            setAsyncItem={this.setAsyncItem}
           />
         </ScrollView>
       </View>
@@ -68,7 +74,9 @@ export default class App extends React.Component {
         newToDo: ""
       })
     }
-    console.log(todos)
+    //alert(JSON.stringify(this.state.todos)) //should be removed
+
+    this.setAsyncItem("todos", JSON.stringify(this.state.todos))
   }
 
 
@@ -80,6 +88,8 @@ export default class App extends React.Component {
     this.setState({
       todos: todos
     })
+
+    this.setAsyncItem("todos", JSON.stringify(this.state.todos))
   }
 
   completeToDo = (index) => {
@@ -90,6 +100,7 @@ export default class App extends React.Component {
     this.setState({
       todos: todos
     })
+    this.setAsyncItem("todos", JSON.stringify(this.state.todos))
   }
 
   editToDo = (index) => {
@@ -100,6 +111,33 @@ export default class App extends React.Component {
     this.setState({
       todos: todos
     })
+
+    this.setAsyncItem("todos", JSON.stringify(this.state.todos))
+  }
+
+  async setAsyncItem(key, data) {
+    await AsyncStorage.setItem(key, data)
+  }
+
+  async getAsyncItem(key) {
+    await AsyncStorage.getItem(key)
+      .then((res) => {
+        parsedRes = JSON.parse(res)
+        this.setState({
+          todos: parsedRes
+        })
+        //alert(this.state.todos)
+      })
+      .catch((error) => {
+        alert("error occurred")
+      })
+  }
+
+  async removeAsyncItem(key) {
+    await AsyncStorage.removeItem(key)
+      .catch((error) => {
+        alert("error occurred")
+      })
   }
 
   

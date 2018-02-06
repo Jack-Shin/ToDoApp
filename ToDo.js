@@ -5,12 +5,19 @@ import {
   StyleSheet,
   Dimensions,
   TouchableOpacity,
-  TextInput
+  TextInput,
+  AsyncStorage
 } from 'react-native';
 
 const { width, height } = Dimensions.get("window");
 
 export default class ToDo extends Component {
+  
+  /*todosArray = this.props.todos
+  state = {
+    todos: todosArray
+  }*/
+
   componentWillMount() {
     let todos = this.props.todos
 
@@ -18,12 +25,14 @@ export default class ToDo extends Component {
       todos: todos
     })
   }
+
   render() {
-    const { todos } = this.state
+    const { todos } = this.props
     return (
       <View style={styles.container}>
       {
-        this.state.todos.map((todoItem, index) => {
+        
+        this.props.todos.map((todoItem, index) => {
           return(
             <View key={index} style={styles.elements}>
               <TouchableOpacity  onPress={this.props.completeToDo.bind(this, index)}>
@@ -42,9 +51,6 @@ export default class ToDo extends Component {
                   value={todoItem.text}
                   onChangeText={(text) => {
                     todos[index].text = text
-                    this.setState({
-                      todos: todos
-                    })
                   }}
                 />
               ) : (
